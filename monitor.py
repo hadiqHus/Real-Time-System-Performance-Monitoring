@@ -9,7 +9,6 @@ cpu_usage_threshold = 80  # in percent
 memory_usage_threshold = 80  # in percent
 disk_usage_threshold = 80  # in percent
 network_usage_threshold = 80  # in percent
-gpu_usage_threshold = 80  # in percent
 log_file = "monitoring_log.txt"
 monitoring_interval = 5  # in seconds
 
@@ -58,30 +57,13 @@ def check_network_usage(network_usage_threshold):
             log_message(f"Network usage on {interface}: Bytes sent {stats.bytes_sent}, Bytes received {stats.bytes_recv}")
     return stats.bytes_sent + stats.bytes_recv
 
-def check_gpu_usage(gpu_usage_threshold):
-    try:
-        import GPUtil
-        gpus = GPUtil.getGPUs()
-        for gpu in gpus:
-            gpu_usage = gpu.load * 100
-            print(f"GPU usage for {gpu.name}: {gpu_usage}%")
-            if gpu_usage > gpu_usage_threshold:
-                log_message(f"High GPU usage on {gpu.name}: {gpu_usage}%")
-            else:
-                log_message(f"GPU usage on {gpu.name}: {gpu_usage}%")
-        return gpu_usage
-    except ModuleNotFoundError:
-        print("GPUtil module not found. Skipping GPU usage check.")
-        return None
-
-def monitor_system(cpu_usage_threshold, memory_usage_threshold, disk_usage_threshold, network_usage_threshold, gpu_usage_threshold, monitoring_interval):
+def monitor_system(cpu_usage_threshold, memory_usage_threshold, disk_usage_threshold, network_usage_threshold, monitoring_interval):
     while True:
         log_message("Starting a new monitoring cycle")
         check_cpu_usage(cpu_usage_threshold)
         check_memory_usage(memory_usage_threshold)
         check_disk_usage(disk_usage_threshold)
         check_network_usage(network_usage_threshold)
-        check_gpu_usage(gpu_usage_threshold)
         log_message("Monitoring cycle completed\n")
         time.sleep(monitoring_interval)
 
@@ -112,19 +94,13 @@ class TestMonitoringScript(unittest.TestCase):
         mock_net_io_counters.return_value = {'Ethernet': psutil._common.snetio(bytes_sent=500, bytes_recv=500)}
         network_usage = check_network_usage(network_usage_threshold)
         self.assertLessEqual(network_usage, network_usage_threshold * 1024 * 1024)
-    
-    @patch('GPUtil.getGPUs')
-    def test_check_gpu_usage(self, mock_getGPUs):
-        mock_getGPUs.return_value = [type('GPU', (object,), {'name': 'GPU0', 'load': 0.5})()]
-        gpu_usage = check_gpu_usage(gpu_usage_threshold)
-        self.assertLessEqual(gpu_usage, gpu_usage_threshold)
 
 if __name__ == '__main__':
     # Run the monitoring script
     print("Starting the system monitoring. Press Ctrl+C to stop.")
     try:
         monitor_system(cpu_usage_threshold, memory_usage_threshold, disk_usage_threshold, 
-                       network_usage_threshold, gpu_usage_threshold, monitoring_interval)
+                       network_usage_threshold, monitoring_interval)
     except KeyboardInterrupt:
         print("Monitoring stopped.")
     
