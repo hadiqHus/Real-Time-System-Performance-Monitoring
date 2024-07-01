@@ -11,8 +11,6 @@ It monitors the system’s memory usage, logging and printing the usage percenta
 The script checks disk usage for all partitions, logging and printing the usage percentage for each. It highlights partitions with usage above the specified threshold.
 # Network Usage Monitoring
 It monitors network activity on all interfaces, logging and printing the bytes sent and received. High network usage is flagged based on a customizable threshold.
-# (Doesn't work) GPU Usage Monitoring 
-Using the GPUtil library, the script tracks GPU usage, logging and printing the load percentage for each GPU. It flags GPUs with usage above the set threshold.
 # Customizable Thresholds
 Users can set usage thresholds for CPU, memory, disk, network, and GPU to tailor the monitoring to specific needs.
 # Continuous Monitoring
