@@ -3,7 +3,5 @@ The Real-Time System Performance Monitoring Script is a comprehensive Python-bas
 
 # Log File
 ![image](https://github.com/hadiqHus/Real-Time-System-Performance-Monitoring/assets/64806441/3052b5ca-4807-4465-ad78-b19f62cfd190)
-
-# Script
 ![image](https://github.com/hadiqHus/Real-Time-System-Performance-Monitoring/assets/64806441/ddaf62b1-10b4-499e-8446-89c7523a8576)
 
