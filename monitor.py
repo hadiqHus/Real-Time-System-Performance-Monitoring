@@ -50,7 +50,7 @@ def check_network_usage(network_usage_threshold):
     net_io = psutil.net_io_counters(pernic=True)
     for interface, stats in net_io.items():
         print(f"Network usage for {interface} - Bytes sent: {stats.bytes_sent}, Bytes received: {stats.bytes_recv}")
-        # Example threshold check for total bytes sent and received
+        # threshold check for total bytes sent and received
         if stats.bytes_sent + stats.bytes_recv > network_usage_threshold * 1024 * 1024:
             log_message(f"High network usage on {interface}: Bytes sent {stats.bytes_sent}, Bytes received {stats.bytes_recv}")
         else:
